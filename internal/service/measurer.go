@@ -10,6 +10,7 @@ const (
 	FastProvider      = "fast"
 )
 
+// InternetConnectionTester orchestrates internet connection tests
 type InternetConnectionTester struct {
 	mapper map[string]Tester
 }

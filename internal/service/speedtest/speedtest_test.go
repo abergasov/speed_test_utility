@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
-	"speed_test_utility/internal/service/fast"
 	"speed_test_utility/internal/service/speedtest"
 	testutils "speed_test_utility/internal/test_utils"
 	"testing"
@@ -16,14 +15,16 @@ import (
 )
 
 func TestSpeedTest_Execute(t *testing.T) {
-	lastMeasure := float64(0)
+	lastMeasure := time.Duration(0)
 	for i := 3; i < 9; i++ {
 		sleepDuration := time.Duration(i*10) * time.Millisecond
 		svs := getService(t, testutils.WithDuration(sleepDuration))
+		before := time.Now()
 		require.NoError(t, svs.Prepare())
 		require.NoError(t, svs.Execute())
-		res := fast.CalculateSpeed(time.Now(), time.Now().Add(sleepDuration))
-		require.True(t, lastMeasure < res)
+		measure := time.Now().Sub(before)
+		require.True(t, measure > lastMeasure)
+		lastMeasure = measure
 		require.NotEmptyf(t, svs.GetResult(), "result is empty")
 	}
 }
