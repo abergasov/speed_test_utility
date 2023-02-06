@@ -22,7 +22,7 @@ func TestSpeedTest_Execute(t *testing.T) {
 		before := time.Now()
 		require.NoError(t, svs.Prepare())
 		require.NoError(t, svs.Execute())
-		measure := time.Now().Sub(before)
+		measure := time.Since(before)
 		require.True(t, measure > lastMeasure)
 		lastMeasure = measure
 		require.NotEmptyf(t, svs.GetResult(), "result is empty")

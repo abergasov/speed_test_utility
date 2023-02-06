@@ -50,3 +50,8 @@ run benchamrks:
 ```shell
 make bench
 ```
+
+run linters
+```shell
+make lint
+```

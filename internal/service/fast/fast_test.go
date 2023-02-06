@@ -13,7 +13,7 @@ const (
 	testURL = "http://localhost:8080"
 )
 
-// check taht on increasing response delay - result speed also increace
+// check that on increasing response delay - result speed also increace
 func TestFastTest_Execute(t *testing.T) {
 	lastMeasure := time.Duration(0)
 	lastDownload := float64(0)
@@ -27,7 +27,7 @@ func TestFastTest_Execute(t *testing.T) {
 		)
 		before := time.Now()
 		require.NoError(t, svs.Execute())
-		measure := time.Now().Sub(before)
+		measure := time.Since(before)
 		require.True(t, measure > lastMeasure)
 		lastMeasure = measure
 		require.NotEmptyf(t, svs.GetResult(), "result is empty")

@@ -105,7 +105,7 @@ func (s *Fast) measureUploadSpeed(urlAddr string) (float64, error) {
 		return 0, fmt.Errorf("failed to execute operation: %w", err)
 	}
 
-	return payloadSizeMB * 8 * float64(workload) / time.Now().Sub(sTime).Seconds(), nil
+	return payloadSizeMB * 8 * float64(workload) / time.Since(sTime).Seconds(), nil
 }
 
 // measureDownloadSpeed execute download operation in parallel and measure speed
@@ -121,7 +121,7 @@ func (s *Fast) measureDownloadSpeed(urlAddr string) (float64, error) {
 	if err := eg.Wait(); err != nil {
 		return 0, fmt.Errorf("failed to measure download speed: %w", err)
 	}
-	secPassed := time.Now().Sub(sTime).Seconds()
+	secPassed := time.Since(sTime).Seconds()
 	contentConsumed := atomic.LoadInt64(&s.totalDownloaded)
 
 	reqMB := contentConsumed / 1024 / 1024
